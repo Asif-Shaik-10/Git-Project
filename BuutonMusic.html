@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interstellar Music Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: radial-gradient(circle at top, #0b1d26, #000);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 40px;
+}
+
+.container {
+    margin-top: 60px;
+}
+
+button {
+    padding: 16px 35px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.play-btn {
+    background: #ffd700;
+    color: black;
+}
+
+.stop-btn {
+    background: #ff6b6b;
+    color: white;
+}
+
+.note-btn {
+    background: #ffffff;
+    color: black;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+.note-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌌 Interstellar Background Music</h1>
+<p>Click play 🎧</p>
+
+<div class="container">
+    <!-- INTERSTELLAR CONTROL -->
+    <button class="play-btn" id="playInterstellar">▶ Play Interstellar</button>
+    <button class="stop-btn" id="stopInterstellar">⏹ Stop</button>
+</div>
+
+<div class="container">
+    <!-- OTHER BUTTONS (OPTIONAL) -->
+    <button class="note-btn" id="btn1">1</button>
+    <button class="note-btn" id="btn2">2</button>
+    <button class="note-btn" id="btn3">3</button>
+    <button class="note-btn" id="btn4">4</button>
+</div>
+
+<!-- REAL MP3 -->
+<audio id="interstellarAudio" src="interstellar.mp3"></audio>
+
+<script>
+const audio = document.getElementById("interstellarAudio");
+const playBtn = document.getElementById("playInterstellar");
+const stopBtn = document.getElementById("stopInterstellar");
+const noteButtons = document.querySelectorAll(".note-btn");
+
+// Disable / enable other buttons
+function setButtons(disabled) {
+    noteButtons.forEach(btn => btn.disabled = disabled);
+}
+
+// PLAY INTERSTELLAR
+playBtn.addEventListener("click", () => {
+    audio.currentTime = 0;
+    audio.play();
+    setButtons(true);   // lock other buttons
+});
+
+// STOP INTERSTELLAR
+stopBtn.addEventListener("click", () => {
+    audio.pause();
+    audio.currentTime = 0;
+    setButtons(false);  // unlock buttons
+});
+
+// When music ends, re-enable buttons
+audio.addEventListener("ended", () => {
+    setButtons(false);
+});
+</script>
+
+</body>
+</html>
