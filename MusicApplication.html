@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        button {
+            padding: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .beat {
+            background-color: #FF6B6B;
+        }
+
+        .beat:hover {
+            background-color: #FF5252;
+            transform: scale(1.05);
+        }
+
+        .guitar {
+            background-color: #4ECDC4;
+        }
+
+        .guitar:hover {
+            background-color: #45B7AA;
+            transform: scale(1.05);
+        }
+
+        .drums {
+            background-color: #FFE66D;
+            color: #333;
+        }
+
+        .drums:hover {
+            background-color: #FFD93D;
+            transform: scale(1.05);
+        }
+
+        .piano {
+            background-color: #95E1D3;
+            color: #333;
+        }
+
+        .piano:hover {
+            background-color: #7DD3C0;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .key-hint {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Music Pad</h1>
+        <div class="button-grid">
+            <button class="beat" onclick="playBeat()" id="beatBtn">
+                Beat
+                <div class="key-hint">(Press Q)</div>
+            </button>
+            <button class="guitar" onclick="playGuitar()" id="guitarBtn">
+                Guitar
+                <div class="key-hint">(Press W)</div>
+            </button>
+            <button class="drums" onclick="playDrums()" id="drumsBtn">
+                Drums
+                <div class="key-hint">(Press A)</div>
+            </button>
+            <button class="piano" onclick="playPiano()" id="pianoBtn">
+                Piano
+                <div class="key-hint">(Press S)</div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+       
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(frequency, duration = 0.2) {
+            const now = audioContext.currentTime;
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+
+            osc.frequency.value = frequency;
+            osc.type = 'sine';
+
+            gain.gain.setValueAtTime(0.3, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+            osc.start(now);
+            osc.stop(now + duration);
+        }
+
+        function playBeat() {
+            playSound(400, 0.1);
+        }
+
+        function playGuitar() {
+            playSound(330, 0.3);
+        }
+
+        function playDrums() {
+            playSound(150, 0.15);
+        }
+
+        function playPiano() {
+            playSound(440, 0.25);
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', function(event) {
+            switch(event.key.toLowerCase()) {
+                case 'q':
+                    document.getElementById('beatBtn').click();
+                    break;
+                case 'w':
+                    document.getElementById('guitarBtn').click();
+                    break;
+                case 'a':
+                    document.getElementById('drumsBtn').click();
+                    break;
+                case 's':
+                    document.getElementById('pianoBtn').click();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
